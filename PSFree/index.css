@@ -1,0 +1,393 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background: linear-gradient(
+        135deg,
+        #0d0d0d,
+        #2e004f,
+        #003791
+    );
+    background-size: 400% 400%;
+    animation: galaxyMove 15s ease infinite;
+}
+
+@keyframes galaxyMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+
+body {
+    min-height: 100vh;
+    min-width: 100vw;
+    position: relative;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+.header {
+    z-index: 2;
+    position: absolute;
+    top: 38px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+}
+.header-title {
+    color: #FFF;
+    font-size: 2.6em;
+    font-weight: bold;
+    letter-spacing: .08em;
+    text-shadow: 0px 0px 15px #ffe600;
+    background: #6f707433;
+    border-radius: 18px;
+    padding: 10px 48px;
+    pointer-events: auto;
+    border: 3px solid #ffd900; /* Optional: add border for visibility */
+
+}
+.center-btn-wrap {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.ps-btn {
+    display: flex;
+    align-items: center;
+    background: rgb(34, 34, 34);
+    justify-content: center;
+    border-radius: 1000px;
+    box-shadow: 0 0px 32px #222222, 0 0px 7px #222222;
+    width: 136px;
+    height: 136px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: box-shadow 0.22s, transform 0.18s;
+    position: relative;
+    transition: 0.5s;
+}
+.ps-btn:hover {
+    box-shadow: 0 0px 48px #222222,0 0px 10px #222222;
+    transform: scale(1.07);
+    transition: 0.5s;
+    background: rgb(34, 34, 34);
+}
+.ps-btn svg:hover {
+    transform: scale(1.07);
+    transition: 0.5s;
+    fill: #ffe600;
+}
+.ps-btn svg {
+    width: 67px;
+    height: 67px;
+    filter: drop-shadow(0 0px 13px #222222);
+    fill: #222222;
+    transition: 0.5s;
+}
+#console {
+    color: #e9be67;
+    background-color: #0c0b0733;
+    border-radius: 18px;
+    width: 90%;
+    height: 18%;
+    margin: 0 auto; /* Center horizontally */
+    border: 1px solid #bbb591; /* Optional: add border for visibility */
+    padding: 10px; /* Optional: add padding */
+    display: flex;
+    align-items: center;
+    position: absolute;
+    bottom: 2px;
+    left: 5px;
+    right: 5px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+/* Floating Menu */
+.floating-menu {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    gap: 10px;
+}
+
+.menu-btn {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: all 0.3s;
+    margin-left: 10px;
+}
+.menu-btn:hover {
+    background-color: #ffd90081;
+}
+/* Popup styles */
+.popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 20px;
+    z-index: 1001;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    width: 300px;
+    border-radius: 5px;
+}
+
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+.close-btn {
+    margin-top: 15px;
+    padding: 8px 15px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+/* Popup styles */
+.popup {
+    display: none; /* Hidden by default */
+    position: fixed; /* Fixed position */
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Adjust for centering */
+    background-color: white; /* Popup background */
+    border: 1px solid #ccc; /* Optional: border */
+    padding: 20px; /* Padding inside the popup */
+    z-index: 1000; /* Ensure it is above other content */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Shadow effect */
+}
+/* Overlay styles */
+.overlay {
+    display: none; /* Hidden by default */
+    position: fixed; /* Fixed position */
+    top: 0; /* Cover the entire viewport */
+    left: 0; /* Cover the entire viewport */
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    z-index: 999; /* Ensure it is below the popup */
+}
+
+h1 {
+    color: #cce6ff;  /* أزرق سماوي فاتح يبان مع الخلفية */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    position: absolute;
+    top: 10%;
+    left: 5px;
+    right: 5px;
+    font-size: 32px;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    text-shadow: 
+        0 0 5px #66a3ff, 
+        0 0 10px #003791;
+}
+
+/* الرقم بلون مختلف */
+.phone {
+    color: #00ff99;  /* أخضر نيون */
+    text-shadow: 0 0 5px #00ffaa, 0 0 10px #00cc88;
+}
+
+
+
+
+
+h4 {
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    font-size: 2.5rem;
+}
+
+h3 {
+    color: #99978d;
+    font-size: 1em;
+    font-weight: bold;
+    letter-spacing: .08em;
+    background: #6f707433;
+    border-radius: 18px;
+    padding: 10px;
+    pointer-events: auto;
+    position: absolute;
+    bottom: 25%;
+    align-items: center;
+    display: flex;
+    margin: 0 auto;
+    left: 5%;
+
+}
+#button-container {
+    color: #FFF;
+    background-color: #6f707433;
+    border-radius: 18px;
+    width: 80%;
+    height: 20%;
+    margin: 0 auto; /* Center horizontally */
+    border: 1px solid #ffd900; /* Optional: add border for visibility */
+    padding: 10px; /* Optional: add padding */
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+    overflow-y: auto; /* scroll if buttons overflow vertically */
+    position: absolute;
+    top: 40%;
+    left: 5px;
+    right: 5px;
+}
+#button-container button {
+    padding: 10px 0;
+    font-size: 15px;
+    border: 2px solid #ffd900;
+    border-radius: 10px;
+    background-color: #6f707433;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.25s ease;
+    width: 200px;
+    height: 50px;
+    margin: 0 auto; /* center horizontally */
+    box-sizing: border-box;
+}
+#button-container button:hover {
+    background-color: #b3b000;
+}
+.floating-menu-payloads {
+    position: fixed;
+    top: 20%;
+    left: 50%; /* start at horizontal center */
+    transform: translateX(-50%); /* shift back by half width to center */
+    width: 50vw; /* 50% of viewport width */
+    background-color: #6f707433;
+    display: flex;
+    justify-content: space-around; /* spread buttons evenly */
+    padding: 10px 0;
+    border-radius: 15px; /* optional rounded bottom corners */
+    box-shadow: 0 2px 5px rgb(34, 34, 34);
+    z-index: 1000;
+}
+.floating-menu-payloads button {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 8px 16px;
+    border-radius: 5px;
+    transition: background-color 0.25s ease;
+}
+.floating-menu-payloads button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+#tools {
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 30%;
+    left: 5px;
+    right: 5px;
+
+}
+#PS4FW {
+    color: rgb(148, 156, 151);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 20%;
+    left: 5px;
+    right: 5px;
+}
+/* Hide the default checkbox */
+#autogoldhen {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    position: relative;
+    background-color: white;
+    transition: border-color 0.3s, background-color 0.3s;
+}
+
+/* Hover effect */
+#autogoldhen:hover {
+    border-color: #b3b000;
+}
+
+/* Checked state */
+#autogoldhen:checked {
+    background-color: #6f707433;
+    border-color: #b3b000;
+}
+
+/* The yellow checkmark */
+#autogoldhen:checked::after {
+    content: "";
+    position: absolute;
+    left: 4px;
+    top: 1px;
+    width: 5px;
+    height: 10px;
+    border: solid yellow;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+}
+
+/* Label styling */
+label {
+    font-family: Arial, sans-serif;
+    font-size: 18px;
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 5;
+    color: white;
+    margin-top: 20%;
+    white-space: nowrap;
+    padding: 1%;
+}
+@media (max-width: 600px) {
+    .header-title { font-size: 1.3em; padding: 5px 14px;}
+    .ps-btn { width: 90px; height: 90px;}
+    .ps-btn svg { width: 44px; height: 44px;}
+}
