@@ -1,0 +1,179 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>ic Store-Store HOST Jailbreak</title>
+       <script src="./bundle.js" defer></script>
+    <style>
+      body {
+        background:url('icon0.png');
+        background-color: #252526;
+        color: #cccccc;
+        font-family: "Segoe UI", Tahoma, sans-serif;
+        text-align: center;
+      }
+      h2 {
+        margin-bottom: 20px;
+      }
+#mainTitle{
+  margin-bottom: 20px;
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: 1px;
+
+  background: linear-gradient(180deg, #ffd86b 0%, #d4af37 55%, #b8860b 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+
+  text-shadow: 0 6px 18px rgba(0,0,0,0.35);
+}
+#hostTitle{
+  margin: 25px 0 8px;
+  font-size: 35px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  background: linear-gradient(180deg,#ffd86b 0%,#d4af37 55%,#b8860b 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 6px 18px rgba(0,0,0,.35);
+}
+#thanksTitle{
+  margin: 25px 0 8px;
+  font-size: 35px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  background: linear-gradient(180deg,#ffd86b 0%,#d4af37 55%,#b8860b 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 6px 18px rgba(0,0,0,.35);
+}
+#autoStartChk{
+  transform: scale(1.7);
+  transform-origin: left center;
+  margin-left: 10px;  /* مسافة بين المربع والكلام */
+}
+      #console {
+        font-family: monospace;
+        background-color: #1e1e1e;
+        color: #cccccc;
+        border: 1px solid #3c3c3c;
+        padding: 12px;
+        border-radius: 6px;
+        margin-top: 20px;
+        text-align: left;
+      }
+      #jailbreakBtn {
+  margin-top: 24px;
+  padding: 18px 44px;     /* تكبير الزر */
+  font-size: 22px;        /* تكبير الخط */
+  font-weight: 800;
+
+  background: linear-gradient(180deg, #ffd86b 0%, #d4af37 55%, #b8860b 100%);
+  color: #1a1a1a;
+
+  border: 1px solid rgba(255, 215, 0, 0.55);
+  border-radius: 10px;
+  cursor: pointer;
+
+  box-shadow: 0 10px 22px rgba(0,0,0,0.35);
+}
+
+#jailbreakBtn:disabled {
+  background: #555555;
+  color: #aaaaaa;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+#jailbreakBtn:not(:disabled):hover {
+  filter: brightness(1.06);
+}
+      footer {
+        margin-top: 30px;
+        font-size: 14px;
+        color: #888;
+      }
+    </style>
+    <script>
+  // روح لصفحة الكاش فقط لو مفيش كاش متثبت (UNCACHED = 0)
+  if (window.applicationCache && window.applicationCache.status === 0) {
+    window.location.replace("cache.html");
+  }
+</script>
+  </head>
+  <body>
+<h2 id="mainTitle"> ic Store-Store HOST 7.00 - 9.60 </h2>
+<div>
+  <button id="jailbreakBtn" >Start GoldHen</button>
+
+  <label style="display:block; margin-top:12px; font-size:20px; color:#cccccc;">
+    <input type="checkbox" id="autoStartChk">
+    تشغيل تلقائي بعد فتح الصفحة
+  </label>
+</div>
+    <pre id="console"></pre>
+  <footer>
+  <h1 id="hostTitle">THIS HOST FROM ic Store-PS4</h1>
+ <h2 id="thanksTitle"><strong> 01094906500</strong></h2>
+ </footer>
+ 
+  <script>
+    // Logging utility
+    const outputConsole = document.getElementById("console");
+
+window.log = (msg, color="#cccccc") => { outputConsole.innerHTML += `<span style="color:${color}">${msg}</span><br>`; };
+
+// ✅ حط ده هنا مباشرة
+const autoStartChk = document.getElementById("autoStartChk");
+const AUTO_KEY = "autoStartEnabled";
+
+autoStartChk.checked = localStorage.getItem(AUTO_KEY) === "1";
+
+autoStartChk.addEventListener("change", () => {
+  localStorage.setItem(AUTO_KEY, autoStartChk.checked ? "1" : "0");
+});
+    // Event definitions
+    addEventListener('unhandledrejection', event => {
+      const reason = event.reason;
+      alert(
+        'Unhandled rejection\n'
+        + `${reason}\n`
+        + `${reason.sourceURL}:${reason.line}:${reason.column}\n`
+        + `${reason.stack}`
+      );
+    });
+    addEventListener('error', event => {
+      const reason = event.error;
+      alert(
+        'Unhandled error\n'
+        + `${reason}\n`
+        + `${reason.sourceURL}:${reason.line}:${reason.column}\n`
+        + `${reason.stack}`
+      );
+      return true; // Used for not to show error message on console
+    });
+    // Button click
+    document.getElementById("jailbreakBtn").addEventListener("click", () => {
+      // Disable to prevent double click
+      document.getElementById("jailbreakBtn").disabled = true;
+      outputConsole.textContent = ""; // Clear console log
+      try {
+        doJBwithPSFreeLapseExploit();
+      } catch (error) {
+  window.log("An error occured during exploit: " + error, "red");
+  document.getElementById("jailbreakBtn").disabled = false;
+}
+    });
+// ✅ تشغيل تلقائي عند فتح الصفحة لو الخيار متفعّل
+window.addEventListener("DOMContentLoaded", () => {
+  if (localStorage.getItem(AUTO_KEY) === "1") {
+    document.getElementById("jailbreakBtn").click();
+  }
+});
+  </script>
+    </body>
+</html>
