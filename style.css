@@ -1,0 +1,86 @@
+/* ============ AHLAWY STORE FINAL RECOVERY - v13.0 ============ */
+:root {
+  --main-red: #ff0000;
+  --dark-bg: #0a0707;
+  --text-white: #ffffff;
+  --gold: #d4af37;
+  --ps-blue: #003791;
+  --btn-bg: rgba(20, 20, 20, 0.8);
+}
+
+body {
+  margin: 0; padding: 0;
+  background: radial-gradient(circle at top, #4b0000 0%, #0a0707 80%) no-repeat fixed;
+  color: var(--text-white); 
+  direction: rtl;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  overflow-x: hidden;
+  /* السطر ده بيخلي أي نص في الصفحة يبدأ من السنتر */
+  text-align: center; 
+}
+
+/* ضبط العنوان الرئيسي ليكون في السنتر تماماً */
+#msgs {
+  display: block;
+  width: 100%;
+  margin: 30px auto;
+  text-align: center;
+  font-size: 28px;
+  text-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+}
+
+/* تنسيق حاوية الأزرار لتكون في الوسط وبجانب بعضها */
+#menu {
+    max-width: 1100px;
+    margin: 0 auto; /* توسيط الحاوية نفسها */
+    padding: 20px;
+    display: flex; 
+    flex-wrap: wrap; 
+    justify-content: center; /* توسيط الأزرار أفقياً داخل الحاوية */
+    align-items: center;
+    gap: 15px;
+}
+
+/* توسيط العنوان الفرعي */
+.menu-title, #menu h1 {
+    width: 100%;
+    text-align: center;
+    color: yellow;
+    margin-bottom: 20px;
+}
+
+/* ستايل الزرار الموحد */
+.btn {
+    background: var(--btn-bg);
+    color: var(--text-white);
+    border: 2px solid #333;
+    padding: 12px 25px;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.3s;
+    text-align: center;
+    min-width: 180px;
+    display: inline-block;
+    border-bottom: 4px solid var(--main-red);
+}
+
+.btn:hover {
+    background: var(--main-red);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(255, 0, 0, 0.4);
+}
+
+/* الفوتر (Designed by) وتوسيطه */
+.footer-info, h1, h2 {
+    text-align: center;
+    width: 100%;
+    margin: 25px auto;
+}
+
+/* التأكد من أن الروابط تتبع التوسيط */
+a {
+    text-align: center;
+    text-decoration: none;
+}
