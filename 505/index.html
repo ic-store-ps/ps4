@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html manifest="cache.manifest">
+<head>
+<title>PS4 5.05 FW Host v2.0 by ic Store-PS4</title>
+<link rel="stylesheet" href="../style.css">
+<script src="exploit.js"></script>
+</head>
+<body onload="if(localStorage.cached505=='yes')setTimeout(exploit, 50);">
+<script>
+window.applicationCache.onprogress=function(a){document.getElementById("msgs2").innerHTML="Installing Offline Cache: "+(Math.round(100*(a.loaded/a.total)))+"%"};
+window.applicationCache.oncached=function(){setTimeout(function(){document.getElementById("msgs2").innerHTML="Cache Installed Successfully ✔";},1500);setTimeout(function(){document.getElementById("msgs2").innerHTML="Now Close And Re-Open Your Browser ..."; },3500);localStorage.cached505="yes";};
+window.applicationCache.onnoupdate=function(){localStorage.cached505="yes";};
+window.applicationCache.onerror=function(){localStorage.cached505="yes";};
+</script>
+<h1 id="msgs">PS4 5.05 FW Host v2.0 by ic Store-PS4</h1>
+<h2>للتواصل فون او واتس  01094906500</h2>
+<hr>
+<br>
+<div id="progress">
+<h1 id="msgs2" style="font-size: 30px;margin-top: 77px;margin-bottom: 455px;">Loading... Please Wait</h1>
+</div>
+<div id="menu" style="display: none">
+<h1 style="font-size: 18px;color: yellow;">Main Payloads</h1>
+<button class="btn" onmouseover="msgs.innerHTML='GoldHEN v2.4b18.3 for 5.05 FW'" onmouseout="msgs.innerHTML='PS4 5.05 FW Host v2.0 by AHLAWY-PS4'" onclick="load_goldhenbeta()"> GoldHEN v2.4b18.3 </button>
+<button class="btn" onmouseover="msgs.innerHTML='GoldHEN v2.3 for 5.05 FW'" onmouseout="msgs.innerHTML='PS4 5.05 FW Host v2.0 by AHLAWY-PS4'" onclick="load_goldhen23()"> GoldHEN v2.3 </button>
+<button class="btn" onmouseover="msgs.innerHTML='Send a Payload using port 9020'" onmouseout="msgs.innerHTML='PS4 5.05 FW Host v2.0 by AHLAWY-PS4'" onclick="load_binloader()"> Bin Loader </button>
+<br>
+<h1 style="font-size: 18px;">Payloads</h1>
+<button class="btn" onmouseover="msgs.innerHTML='Enable Some Debugging Functions Available on TestKit'" onmouseout="msgs.innerHTML='PS4 5.05 FW Host v2.0 by AHLAWY-PS4'" onclick="load_todex()"> ToDex </button>
+<button class="btn" onmouseover="msgs.innerHTML='Dump Games to USB Drive'" onmouseout="msgs.innerHTML='PS4 5.05 FW Host v2.0 by AHLAWY-PS4'" onclick="load_dumper()"> Game-Dumper </button>
+<button class="btn" onmouseover="msgs.innerHTML='Access this console Through FTP (Be careful what you do)'" onmouseout="msgs.innerHTML='PS4 5.05 FW Host v2.0 by AHLAWY-PS4'" onclick="load_ftp()"> FTP </button>
+<button class="btn" onmouseover="msgs.innerHTML='Transfer Installed Games to USB Drive in exFAT'" onmouseout="msgs.innerHTML='PS4 5.05 FW Host v2.0 by AHLAWY-PS4'" onclick="load_app2usb()"> App2USB </button>
+<button class="btn" onmouseover="msgs.innerHTML='Create a Backup of the Database and Users to a USB Drive'" onmouseout="msgs.innerHTML='PS4 5.05 FW Host v2.0 by AHLAWY-PS4'" onclick="load_dbackup()"> DB Backup </button>
+<button class="btn" onmouseover="msgs.innerHTML='Restore a Backup of the Database and Users from a USB Drive'" onmouseout="msgs.innerHTML='PS4 5.05 FW Host v2.0 by AHLAWY-PS4'" onclick="load_dbrestore()"> DB Restore </button>
+<br>
+<button class="btn" onmouseover="msgs.innerHTML='Enable System Updates'" onmouseout="msgs.innerHTML='PS4 5.05 FW Host v2.0 by AHLAWY-PS4'" onclick="load_enablebUpdates()"> Enable Updates </button>
+<button class="btn" onmouseover="msgs.innerHTML='Disable System Updates'" onmouseout="msgs.innerHTML='PS4 5.05 FW Host v2.0 by AHLAWY-PS4'" onclick="load_disableUpdates()"> Disable Updates </button>
+<button class="btn" onmouseover="msgs.innerHTML='Dump a Console Kernel to a USB Drive'" onmouseout="msgs.innerHTML='PS4 5.05 FW Host v2.0 by AHLAWY-PS4'" onclick="load_kernelDump()"> Kernel Dumper </button>
+<button class="btn" onmouseover="msgs.innerHTML='PS4 Debug for 5.05 FW'" onmouseout="msgs.innerHTML='PS4 5.05 FW Host v2.0 by AHLAWY-PS4'" onclick="load_ps4debug()"> PS4 Debug </button>
+<button class="btn" onmouseover="msgs.innerHTML='Renames (fake) RIFs to (free) RIFs'" onmouseout="msgs.innerHTML='PS4 5.05 FW Host v2.0 by AHLAWY-PS4'" onclick="load_rifRen()"> RIF Renamer </button>
+<button class="btn" onmouseover="msgs.innerHTML='Active Remote Play'" onmouseout="msgs.innerHTML='PS4 5.05 FW Host v2.0 by AHLAWY-PS4'" onclick="load_ren()"> Remote Play </button>
+<br>
+<button class="btn" onmouseover="msgs.innerHTML='Required to Activate Cheats Through the PS4 Trainer Website'" onmouseout="msgs.innerHTML='PS4 5.05 FW Host v2.0 by AHLAWY-PS4'" onclick="load_webrte()"> WebRTE </button>
+<a href="http://ps4trainer.com/Trainer/index.html"><button class="btn btn-onln" onmouseover="msgs.innerHTML='PS4 Trainer Website (Follow Instructions There)'" onmouseout="msgs.innerHTML='PS4 5.05 FW Host v2.0 by AHLAWY-PS4'"> PS4 Trainer Web </button></a>
+<button class="btn" onmouseover="msgs.innerHTML='Games Mods'" onmouseout="msgs.innerHTML='PS4 5.05 FW Host v2.0 by AHLAWY-PS4'" onclick="mods_group()"> Games-Mods </button>
+<button class="btn" onmouseover="msgs.innerHTML='Parental Controls Passcode Notification - if shows 0000 that means passcode is not set'" onmouseout="msgs.innerHTML='PS4 5.05 FW Host v2.0 by AHLAWY-PS4'" onclick="load_parental()"> Parental Controls </button>
+<br>
+<button class="btn btn-toolbox" onmouseover="msgs.innerHTML='Orbis Toolbox for 5.05 FW'" onmouseout="msgs.innerHTML='PS4 5.05 FW Host v2.0 by AHLAWY-PS4'" onclick="load_toolbox()" style="margin-left: 68px;"> Orbis-Toolbox </button>
+<button class="btn" onmouseover="msgs.innerHTML='Modify PS4 FAN Speed'" onmouseout="msgs.innerHTML='PS4 5.05 FW Host v2.0 by AHLAWY-PS4'" onclick="load_fanthreshold()" style="margin-bottom: 70px"> Fan Threshold </button><select id="tempC"></select>°C
+</div>
+<div id="mods">
+<h1 style="font-size: 18px;color: yellow;">Online Payloads</h1>
+<button class="btn" onmouseover="msgs.innerHTML='GTA V Mod - Arabic Guy v1.00 (L1 + R1)'" onmouseout="msgs.innerHTML='PS4 5.05 FW Host v2.0 by AHLAWY-PS4'" onclick="load_arabicGuy100()"> Arabic Guy v1.00 </button>
+<button class="btn" onmouseover="msgs.innerHTML='GTA V Mod - Arabic Guy v1.27 (L1 + R1)'" onmouseout="msgs.innerHTML='PS4 5.05 FW Host v2.0 by AHLAWY-PS4'" onclick="load_arabicGuy127()"> Arabic Guy v1.27 </button>
+<button class="btn" onmouseover="msgs.innerHTML='GTA V Mod - Arabic Guy v1.32 (L1 + R1)'" onmouseout="msgs.innerHTML='PS4 5.05 FW Host v2.0 by AHLAWY-PS4'" onclick="load_arabicGuy132()"> Arabic Guy v1.32 </button>
+<button class="btn" onmouseover="msgs.innerHTML='GTA V Mod - Arabic Guy v1.33 (L1 + R1)'" onmouseout="msgs.innerHTML='PS4 5.05 FW Host v2.0 by AHLAWY-PS4'" onclick="load_arabicGuy133()"> Arabic Guy v1.33 </button>
+<br>
+<button class="btn" onmouseover="msgs.innerHTML='GTA V Mod - Lamance v0.9 - 1.38 (Right + Square)'" onmouseout="msgs.innerHTML='PS4 5.05 FW Host v2.0 by AHLAWY-PS4'" onclick="load_Lamance()"> Lamance v0.9 - 1.38 </button>
+<button class="btn" onmouseover="msgs.innerHTML='GTA V Mod - WildeModz-1.32'" onmouseout="msgs.innerHTML='PS4 5.05 FW Host v2.0 by AHLAWY-PS4'" onclick="load_WildeModz132()"> WildeModz-1.32 </button>
+<button class="btn" onmouseover="msgs.innerHTML='GTA V Mod - WildeModz-1.33'" onmouseout="msgs.innerHTML='PS4 5.05 FW Host v2.0 by AHLAWY-PS4'" onclick="load_WildeModz133()"> WildeModz-1.33 </button>
+<button class="btn" onmouseover="msgs.innerHTML='GTA V Mod - WildeModz-1.38'" onmouseout="msgs.innerHTML='PS4 5.05 FW Host v2.0 by AHLAWY-PS4'" onclick="load_WildeModz138()"> WildeModz-1.38 </button>
+<button class="btn" onmouseover="msgs.innerHTML='GTA V Mod - WildeModz-1.46'" onmouseout="msgs.innerHTML='PS4 5.05 FW Host v2.0 by AHLAWY-PS4'" onclick="load_WildeModz146()"> WildeModz-1.46 </button>
+<br>
+<button class="btn" onmouseover="msgs.innerHTML='Red Dead Redemption 2 Mod - Oysters Menu v1.00'" onmouseout="msgs.innerHTML='PS4 5.05 FW Host v2.0 by AHLAWY-PS4'" onclick="load_Oysters100()"> RDR2 v1.00 </button>
+<button class="btn" onmouseover="msgs.innerHTML='Red Dead Redemption 2 Mod - Oysters Menu v1.13'" onmouseout="msgs.innerHTML='PS4 5.05 FW Host v2.0 by AHLAWY-PS4'" onclick="load_Oysters113()"> RDR2 v1.13 </button>
+<button class="btn" onmouseover="msgs.innerHTML='Red Dead Redemption 2 Mod - Oysters Menu v1.19'" onmouseout="msgs.innerHTML='PS4 5.05 FW Host v2.0 by AHLAWY-PS4'" onclick="load_Oysters119()"> RDR2 v1.19 </button>
+<button class="btn" onmouseover="msgs.innerHTML='Red Dead Redemption 2 Mod - Oysters Menu v1.24'" onmouseout="msgs.innerHTML='PS4 5.05 FW Host v2.0 by AHLAWY-PS4'" onclick="load_Oysters124()"> RDR2 v1.24 </button>
+<button class="btn" onmouseover="msgs.innerHTML='Red Dead Redemption 2 Mod - Oysters Menu v1.29'" onmouseout="msgs.innerHTML='PS4 5.05 FW Host v2.0 by AHLAWY-PS4'" onclick="load_Oysters129()"> RDR2 v1.29 </button>
+<br>
+<button class="btn" onmouseover="msgs.innerHTML='Return to Main Menu'" onmouseout="msgs.innerHTML='PS4 5.05 FW Host v2.0 by AHLAWY-PS4'" onclick="load_menu()" style="margin-bottom: 179px"> Return </button>
+</div>
+<h1>Designed by:<a href="https://www.facebook.com/kiko1258" style="color: #f31414;margin-left: 10px;margin-right: 10px;">@AHLAWY-PS4</a>{ للتواصل فون او واتس  01018251103 }</h1>
+<script>
+function success(){
+document.getElementById("menu").style.display = "block";
+document.getElementById("progress").style.display = "none";
+}
+
+function mods_group(){
+document.getElementById("mods").style.display = "block";
+document.getElementById("menu").style.display = "none";
+}
+
+function load_menu(){
+document.getElementById("menu").style.display = "block";
+document.getElementById("mods").style.display = "none";
+}
+
+function allset(){
+msgs.innerHTML = LoadedMSG
+}
+
+function load_payload(){
+req1=null;
+var req1=new XMLHttpRequest();
+req1.open('GET',PLfile);req1.responseType="arraybuffer";
+req1.send();
+ req1.onreadystatechange=function(){
+  if (req1.readyState==4){
+   var padding1=new Uint8Array(4 - (req1.response.byteLength % 4) % 4);
+   var tmp1=new Uint8Array(req1.response.byteLength + padding1.byteLength);
+   tmp1.set(new Uint8Array(req1.response),0);
+   tmp1.set(padding1,req1.response.byteLength);
+   var shellcode1=new Uint32Array(tmp1.buffer);
+   var code_addr1=new int64(0x26100000,0x00000009);
+   p.syscall(477,code_addr1,0x300000,7,0x41000,-1,0);
+    for(var i=0;i < shellcode1.length; i++){
+	p.write4(code_addr1.add32(0x100000 + i * 4),shellcode1[i]);
+	}
+   runPAYLOAD1=function(){
+   p.fcall(code_addr1);
+   PLfile=null;
+    for(var x=0;x < 0x300000;x += 8){
+	p.write8(code_addr1.add32(x),0);}setTimeout(allset, 50);
+	};
+   setTimeout(runPAYLOAD1,100);
+  }
+ };
+}
+
+for(var i=50; i<=75; i=i+5){
+    var select = document.getElementById("tempC");
+    var option = document.createElement("OPTION");
+	select.options.add(option);
+	option.text = i;
+	option.value = i;
+}
+tempC.value=60;
+
+function load_goldhenbeta(){
+msgs.innerHTML = "Loading GoldHEN v2.4b18.3... Please Wait";
+LoadedMSG = "GoldHEN v2.4b18.3 Loaded ✔";
+PLfile = "goldhen_2.4b18.3.bin";
+load_payload();
+}
+
+function load_goldhen23(){
+msgs.innerHTML = "Loading GoldHEN v2.3... Please Wait";
+LoadedMSG = "GoldHEN v2.3 Loaded ✔";
+PLfile = "goldhen_2.3_505.bin";
+load_payload();
+}
+
+function load_binloader(){									   
+msgs.innerHTML = "Waiting for Payload... Send it using the PS4 IP and port 9020";
+}
+
+function load_todex(){
+msgs.innerHTML = "Loading ToDex... Please Wait"
+LoadedMSG = "ToDex Loaded ✔";
+PLfile = "todex.bin";
+load_payload();
+}
+
+function load_dumper(){
+msgs.innerHTML = "Loading Game-Dumper... Please Wait";
+LoadedMSG = "Game-Dumper Loaded ✔";
+PLfile = "dumper.bin";
+load_payload();
+}
+
+function load_ftp(){
+msgs.innerHTML = "Loading FTP... Please Wait"
+LoadedMSG = "FTP Loaded ✔";
+PLfile = "ftp.bin";
+load_payload();
+}
+
+function load_app2usb(){
+msgs.innerHTML = "Loading App2USB... Please Wait"
+LoadedMSG = "App2USB Loaded ✔"
+PLfile = "app2usb.bin";
+load_payload();
+}
+
+function load_dbackup(){
+msgs.innerHTML = "Loading DB Backup... Please Wait"
+LoadedMSG = "DB Backup Loaded ✔"
+PLfile = "backup.bin";
+load_payload();
+}
+
+function load_dbrestore(){
+msgs.innerHTML = "Loading DB Restore... Please Wait"
+LoadedMSG = "DB Restore Loaded ✔"
+PLfile = "restore.bin";
+load_payload();
+}
+
+function load_enablebUpdates(){
+msgs.innerHTML = "Loading Enable Updates... Please Wait"
+LoadedMSG = "Enable Updates Loaded ✔"
+PLfile = "enable-updates.bin";
+load_payload();
+}
+
+function load_disableUpdates(){
+msgs.innerHTML = "Loading Disable Updates... Please Wait"
+LoadedMSG = "Disable Updates Loaded ✔"
+PLfile = "disable-updates.bin";
+load_payload();
+}
+
+function load_kernelDump(){
+msgs.innerHTML = "Loading Kernel Dumper... Please Wait"
+LoadedMSG = "Kernel Dumper Loaded ✔"
+PLfile = "kernel-dumper.bin";
+load_payload();
+}
+
+function load_ps4debug(){
+msgs.innerHTML = "Loading PS4 Debug... Please Wait"
+LoadedMSG = "PS4 Debug Loaded ✔"
+PLfile = "ps4debug100.bin";
+load_payload();
+}
+
+function load_rifRen(){
+msgs.innerHTML = "Loading RIF Renamer... Please Wait"
+LoadedMSG = "RIF Renamer Loaded ✔"
+PLfile = "rif-renamer.bin";
+load_payload();
+}
+
+function load_ren(){
+msgs.innerHTML = "Loading Remote Play... Please Wait"
+LoadedMSG = "Remote Play ✔"
+PLfile = "PS4ren.bin";
+load_payload();
+}
+
+function load_webrte(){
+msgs.innerHTML = "Loading WebRTE... Please Wait"
+LoadedMSG = "WebRTE Loaded ✔"
+PLfile = "webrte.bin";
+load_payload();
+}
+
+function load_parental(){
+msgs.innerHTML = "Parental Controls... Please Wait"
+LoadedMSG = "Parental Controls Loaded ✔"
+PLfile = "parental-controls.bin";
+load_payload();
+}
+
+function load_toolbox(){
+msgs.innerHTML = "Loading Orbis-Toolbox... Please Wait"
+LoadedMSG = "Orbis-Toolbox Loaded ✔"
+PLfile = "Orbis-Toolbox-505.bin";
+load_payload();
+}
+
+function load_fanthreshold(){
+msgs.innerHTML = "Loading Fan Threshold... Please Wait"
+LoadedMSG = "Fan Threshold Loaded ✔";
+PLfile = "fan-threshold"+tempC.value+".bin";
+load_payload();
+}
+
+function load_arabicGuy100(){
+msgs.innerHTML = "Loading Arabic Guy v1.00... Please Wait";
+LoadedMSG = "Arabic Guy v1.00 Loaded ✔"
+PLfile = "arabic-guy100.bin";
+load_payload();
+}
+
+function load_arabicGuy127(){
+msgs.innerHTML = "Loading Arabic Guy v1.27... Please Wait";
+LoadedMSG = "Arabic Guy v1.27 Loaded ✔"
+PLfile = "arabic-guy127.bin";
+load_payload();
+}
+
+function load_arabicGuy132(){
+msgs.innerHTML = "Loading Arabic Guy v1.32... Please Wait";
+LoadedMSG = "Arabic Guy v1.32 Loaded ✔"
+PLfile = "arabic-guy132.bin";
+load_payload();
+}
+
+function load_arabicGuy133(){
+msgs.innerHTML = "Loading Arabic Guy v1.33... Please Wait";
+LoadedMSG = "Arabic Guy v1.33 Loaded ✔"
+PLfile = "arabic-guy133.bin";
+load_payload();
+}
+
+function load_Lamance(){
+msgs.innerHTML = "Loading Lamance v0.9... Please Wait";
+LoadedMSG = "Lamance v0.9 Loaded ✔"
+PLfile = "Lamance-v0.9-1.38.bin";
+load_payload();
+}
+
+function load_WildeModz132(){
+msgs.innerHTML = "Loading WildeModz-1.32... Please Wait";
+LoadedMSG = "WildeModz-1.32 Loaded ✔"
+PLfile = "WildeModz-1.32.bin";
+load_payload();
+}
+
+function load_WildeModz133(){
+msgs.innerHTML = "Loading WildeModz-1.33... Please Wait";
+LoadedMSG = "WildeModz-1.33 Loaded ✔"
+PLfile = "WildeModz-1.33.bin";
+load_payload();
+}
+
+function load_WildeModz138(){
+msgs.innerHTML = "Loading WildeModz-1.38... Please Wait";
+LoadedMSG = "WildeModz-1.38 Loaded ✔"
+PLfile = "WildeModz-1.38.bin";
+load_payload();
+}
+
+function load_WildeModz146(){
+msgs.innerHTML = "Loading WildeModz-1.46... Please Wait";
+LoadedMSG = "WildeModz-1.46 Loaded ✔"
+PLfile = "WildeModz-1.46.bin";
+load_payload();
+}
+
+function load_Oysters100(){
+msgs.innerHTML = "Loading Oysters Menu v1.00... Please Wait";
+LoadedMSG = "Oysters Menu v1.00 Loaded ✔"
+PLfile = "OystersMenu-v1.00.bin";
+load_payload();
+}
+
+function load_Oysters113(){
+msgs.innerHTML = "Loading Oysters Menu v1.13... Please Wait";
+LoadedMSG = "Oysters Menu v1.13 Loaded ✔"
+PLfile = "OystersMenu-v1.13.bin";
+load_payload();
+}
+
+function load_Oysters119(){
+msgs.innerHTML = "Loading Oysters Menu v1.19... Please Wait";
+LoadedMSG = "Oysters Menu v1.19 Loaded ✔"
+PLfile = "OystersMenu-v1.19.bin";
+load_payload();
+}
+
+function load_Oysters124(){
+msgs.innerHTML = "Loading Oysters Menu v1.24... Please Wait";
+LoadedMSG = "Oysters Menu v1.24 Loaded ✔"
+PLfile = "OystersMenu-v1.24.bin";
+load_payload();
+}
+
+function load_Oysters129(){
+msgs.innerHTML = "Loading Oysters Menu v1.29... Please Wait";
+LoadedMSG = "Oysters Menu v1.29 Loaded ✔"
+PLfile = "OystersMenu-v1.29.bin";
+load_payload();
+}
+</script>
+</body>
+</html>
