@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 500" width="300" height="500">
+  <defs>
+    <linearGradient id="whiteGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f0f0f0"/>
+      <stop offset="50%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#e0e0e0"/>
+    </linearGradient>
+    <linearGradient id="blackGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a1a1a"/>
+      <stop offset="50%" stop-color="#0a0a0a"/>
+      <stop offset="100%" stop-color="#1a1a1a"/>
+    </linearGradient>
+    <linearGradient id="ledGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="transparent"/>
+      <stop offset="20%" stop-color="#0070d1"/>
+      <stop offset="50%" stop-color="#00aaff"/>
+      <stop offset="80%" stop-color="#0070d1"/>
+      <stop offset="100%" stop-color="transparent"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Left Panel -->
+  <path d="M 150 10 C 100 10, 60 30, 55 70 L 50 400 C 50 440, 70 460, 100 465 L 145 465 L 145 10 Z"
+        fill="url(#whiteGrad)" stroke="#ddd" stroke-width="0.5"/>
+
+  <!-- Right Panel -->
+  <path d="M 150 10 C 200 10, 240 30, 245 70 L 250 400 C 250 440, 230 460, 200 465 L 155 465 L 155 10 Z"
+        fill="url(#whiteGrad)" stroke="#ddd" stroke-width="0.5"/>
+
+  <!-- Center Black Strip -->
+  <rect x="143" y="15" width="14" height="445" rx="7" fill="url(#blackGrad)"/>
+
+  <!-- Blue LED -->
+  <rect x="147" y="25" width="6" height="425" rx="3" fill="url(#ledGrad)" filter="url(#glow)" opacity="0.9"/>
+
+  <!-- Disc Drive Bulge (left bottom) -->
+  <path d="M 48 340 C 40 340, 35 350, 35 365 L 35 430 C 35 445, 45 455, 60 458 L 145 458 L 145 340 Z"
+        fill="url(#whiteGrad)" stroke="#ddd" stroke-width="0.5"/>
+
+  <!-- Base Stand -->
+  <rect x="110" y="465" width="80" height="10" rx="4" fill="#222"/>
+
+  <!-- PlayStation Logo Circle -->
+  <circle cx="150" cy="55" r="8" fill="none" stroke="#999" stroke-width="1"/>
+  <text x="150" y="59" text-anchor="middle" font-size="8" fill="#999" font-family="Arial">PS</text>
+
+  <!-- USB Port -->
+  <rect x="144" y="430" width="12" height="4" rx="1" fill="#333"/>
+
+  <!-- Power Button -->
+  <circle cx="150" cy="445" r="3" fill="#222"/>
+</svg>

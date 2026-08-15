@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ic Store PS5</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Cairo:wght@400;600;700;800&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    margin: 0; padding: 0; min-height: 100vh;
+    background: #060a14;
+    color: #c8ced8;
+    font-family: 'Cairo', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    overflow: hidden;
+  }
+
+  /* ===== PS5 Image Background ===== */
+  .ps5-bg {
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+    pointer-events: none;
+    animation: ps5Float 8s ease-in-out infinite;
+  }
+
+  .ps5-bg img {
+    width: 400px;
+    height: auto;
+    filter: brightness(0.8) drop-shadow(0 0 50px rgba(0, 112, 209, 0.5));
+    animation: ps5Glow 4s ease-in-out infinite;
+  }
+
+  @keyframes ps5Float {
+    0%, 100% { transform: translate(-50%, -50%) translateY(0) rotate(0deg); }
+    25% { transform: translate(-50%, -50%) translateY(-20px) rotate(0.5deg); }
+    50% { transform: translate(-50%, -50%) translateY(-35px) rotate(0deg); }
+    75% { transform: translate(-50%, -50%) translateY(-20px) rotate(-0.5deg); }
+  }
+
+  @keyframes ps5Glow {
+    0%, 100% { filter: brightness(0.7) drop-shadow(0 0 30px rgba(0, 112, 209, 0.3)); }
+    50% { filter: brightness(0.85) drop-shadow(0 0 50px rgba(0, 170, 255, 0.5)); }
+  }
+
+  .ps5-glow {
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px; height: 500px;
+    background: radial-gradient(ellipse, rgba(0, 112, 209, 0.2), transparent 70%);
+    z-index: 0;
+    pointer-events: none;
+    animation: glowPulse 4s ease-in-out infinite;
+  }
+
+  @keyframes glowPulse {
+    0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+    50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); }
+  }
+
+  /* ===== Container ===== */
+  .container {
+    background: rgba(10, 14, 30, 0.6);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 30px;
+    padding: 30px 40px;
+    max-width: 550px;
+    width: 100%;
+    box-shadow:
+      0 25px 80px rgba(0, 0, 0, 0.7),
+      0 0 120px rgba(99, 102, 241, 0.06),
+      inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    text-align: center;
+    position: relative;
+    z-index: 10;
+  }
+
+  .container::before {
+    content: '';
+    position: absolute;
+    top: -2px; left: -2px; right: -2px; bottom: -2px;
+    border-radius: 31px;
+    background: linear-gradient(45deg, #ff2e63, #6366f1, #06b6d4, #8b5cf6, #ff2e63);
+    background-size: 400% 400%;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    animation: borderGlow 8s linear infinite;
+  }
+
+  .container:hover::before { opacity: 0.6; }
+
+  @keyframes borderGlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .container:hover {
+    border-color: rgba(99, 102, 241, 0.2);
+    transform: translateY(-8px);
+    box-shadow:
+      0 30px 90px rgba(0, 0, 0, 0.8),
+      0 0 150px rgba(99, 102, 241, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  }
+
+  /* ===== Title ===== */
+  .main-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 42px;
+    font-weight: 900;
+    letter-spacing: 3px;
+    margin-bottom: 5px;
+    position: relative;
+    display: inline-block;
+    filter: drop-shadow(0 0 15px rgba(255, 46, 99, 0.35));
+    animation: titleFloat 4s ease-in-out infinite;
+  }
+
+  @keyframes titleFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+
+  .main-title::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -120%;
+    width: 40%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+    transform: skewX(-20deg);
+    animation: shineSweep 3.5s ease-in-out infinite;
+  }
+
+  @keyframes shineSweep {
+    0% { left: -120%; }
+    60% { left: 120%; }
+    100% { left: 120%; }
+  }
+
+  .highlight {
+    background: linear-gradient(90deg, #ff6b35, #ff2e63, #ff6b35, #ff2e63);
+    background-size: 300% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradientShift 4s linear infinite;
+  }
+
+  .ps5-text {
+    background: linear-gradient(90deg, #00d4ff, #ff0066, #00d4ff, #ff0066);
+    background-size: 300% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradientShift 4s linear infinite;
+    animation-delay: -2s;
+  }
+
+  @keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 300% 50%; }
+  }
+
+  .version-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #ff6b35, #ff2e63);
+    color: white;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 5px 18px;
+    border-radius: 20px;
+    margin-top: 10px;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 20px rgba(255, 46, 99, 0.4);
+    animation: badgePulse 2s ease-in-out infinite;
+  }
+
+  @keyframes badgePulse {
+    0%, 100% { box-shadow: 0 4px 20px rgba(255, 46, 99, 0.4); }
+    50% { box-shadow: 0 4px 35px rgba(255, 46, 99, 0.6); }
+  }
+
+  .separator {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.3), transparent);
+    margin: 18px 0;
+  }
+
+  /* ===== Button ===== */
+  .action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background: linear-gradient(135deg, #ff2e63, #ff6b35);
+    color: white;
+    width: 100%;
+    max-width: 380px;
+    height: 52px;
+    padding: 0 30px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    border: none;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    letter-spacing: 0;
+    text-decoration: none;
+    box-shadow: 0 10px 30px rgba(255, 46, 99, 0.35);
+    margin: 10px auto;
+  }
+
+  .action::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+    transition: all 0.6s ease;
+  }
+
+  .action:hover::before { left: 100%; }
+
+  .action:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 15px 45px rgba(255, 46, 99, 0.55);
+  }
+
+  .action:active {
+    transform: translateY(0px) scale(0.98);
+  }
+
+  #status {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: #8899bb;
+    letter-spacing: 1px;
+    margin: 20px 0;
+    min-height: 1.5em;
+    transition: all 0.3s ease;
+  }
+
+  #status.loading { animation: pulse 1.5s ease-in-out infinite; }
+  #status.error { color: #ff2e63; }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  footer { margin-top: 25px; }
+
+  .credit {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 13px;
+    color: #556688;
+    letter-spacing: 0;
+  }
+
+  .credit-link {
+    background: linear-gradient(135deg, #ff6b35, #ff2e63);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .credit-link:hover {
+    text-shadow: 0 0 30px rgba(255, 46, 99, 0.4);
+  }
+
+  @media (max-width: 600px) {
+    .container { padding: 20px 15px; border-radius: 20px; }
+    .main-title { font-size: 28px; }
+    .action { font-size: 13px; height: 50px; padding: 0 15px; }
+    #status { font-size: 12px; }
+    .ps5-bg img { width: 220px; }
+  }
+
+  @media (max-width: 400px) {
+    .main-title { font-size: 22px; }
+    .action { font-size: 11px; height: 44px; gap: 8px; }
+    .ps5-bg img { width: 160px; }
+  }
+
+  #cat { display: none !important; }
+</style>
+</head>
+<body>
+
+<!-- PS5 Image Background -->
+<div class="ps5-glow"></div>
+<div class="ps5-bg">
+  <img src="ui/ps5-console.svg" alt="PS5">
+</div>
+
+<div class="container">
+  <h1 class="main-title">
+    <span class="highlight">ic Store</span>
+    <span class="ps5-text">PS5</span>
+  </h1>
+  <div class="version-badge">9.00 - 12.00</div>
+
+  <hr class="separator">
+
+  <div id="wrap">
+    <div id="actions">
+      <a id="start" class="action"
+         href="slopkit/poops.html?go=1&amp;auto=1&amp;trigger=netcontrol&amp;payload=1&amp;v=17"
+         tabindex="0">Launch Exploit</a>
+    </div>
+    <div id="status"></div>
+  </div>
+
+  <footer>
+    <p class="credit">Designed by <a href="#" class="credit-link">ic Store</a></p>
+  </footer>
+</div>
+
+<script>
+try {
+    var q = new URLSearchParams(location.search);
+    var start = document.getElementById("start");
+    start.focus();
+} catch (e) {}
+</script>
+
+</body>
+</html>
