@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ar" manifest="cache.appcache">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Poops Exploit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  :root { --neon-blue: #00f3ff; --neon-purple: #b000ff; --dark-bg: rgba(5, 8, 14, 0.9); }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { min-height: 100vh; background: #000; color: #fff; font-family: 'Cairo', sans-serif; display: flex; align-items: center; justify-content: center; direction: rtl; overflow: hidden; }
+  body::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.9) 100%); z-index: 0; }
+  .hud-container { position: relative; z-index: 1; width: 95%; max-width: 900px; background: var(--dark-bg); border: 2px solid var(--neon-purple); clip-path: polygon(40px 0, 100% 0, 100% calc(100% - 40px), calc(100% - 40px) 100%, 0 100%, 0 40px); padding: 40px 30px; box-shadow: 0 0 30px rgba(176, 0, 255, 0.2); }
+  .brand-title { font-family: 'Orbitron', sans-serif; font-size: 4rem; font-weight: 900; text-align: center; margin-bottom: 5px; letter-spacing: 4px; direction: ltr; background: linear-gradient(to right, var(--neon-purple), #ffffff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 10px rgba(176, 0, 255, 0.6)); }
+  .brand-sub { font-size: 1.5rem; text-align: center; color: var(--neon-blue); font-weight: 900; letter-spacing: 2px; text-transform: uppercase; text-shadow: 0 0 10px rgba(0, 243, 255, 0.5); margin-bottom: 10px; direction: ltr; }
+  .powered-by { text-align: center; font-family: 'Orbitron', sans-serif; font-size: 1.1rem; letter-spacing: 2px; color: #aebfd3; margin-bottom: 25px; direction: ltr; }
+  .powered-by span { color: var(--neon-blue); font-weight: 900; text-shadow: 0 0 10px var(--neon-blue); }
+  .status-panel { background: rgba(0, 0, 0, 0.6); padding: 20px; border-radius: 8px; border-right: 4px solid var(--neon-purple); margin-bottom: 20px; position: relative; box-shadow: inset 0 0 20px rgba(0,0,0,0.8); }
+  .status-panel::before { content: 'EXECUTION'; position: absolute; top: -12px; left: 15px; background: var(--neon-purple); color: #fff; padding: 2px 10px; font-family: 'Orbitron', sans-serif; font-size: 12px; font-weight: bold; border-radius: 4px; }
+  #state { font-size: 26px; font-weight: 900; color: var(--neon-blue); text-align: center; margin-bottom: 10px; text-shadow: 0 0 10px rgba(0, 243, 255, 0.5); }
+  .loader-wrapper { display: flex; justify-content: center; gap: 8px; margin-top: 10px; }
+  .dot { width: 12px; height: 12px; background: var(--neon-purple); border-radius: 50%; box-shadow: 0 0 10px var(--neon-purple); animation: bounce 1s infinite alternate; }
+  .dot:nth-child(2) { animation-delay: 0.2s; } .dot:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes bounce { to { transform: translateY(-10px); opacity: 0.5; } }
+  #out-container { position: absolute; width: 1px; height: 1px; overflow: hidden; opacity: 0; pointer-events: none; }
+  #out { white-space: pre-wrap; font: 12px/1.45 Consolas, monospace; background: rgba(0, 0, 0, 0.85); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 8px; padding: 14px; max-height: 250px; overflow-y: auto; color: #c8ced8; direction: ltr; text-align: left; }
+  .done { color: #00ff88 !important; text-shadow: 0 0 10px #00ff88 !important; } .error { color: #ff0055 !important; text-shadow: 0 0 10px #ff0055 !important; }
+  .footer-sys { position: fixed; bottom: 10px; right: 20px; font-family: 'Orbitron', sans-serif; font-size: 12px; color: rgba(255,255,255,0.3); letter-spacing: 2px; z-index: 2; direction: ltr; }
+  @media (max-width: 600px) { .brand-title { font-size: 2.8rem; } .brand-sub { font-size: 1.2rem; } .powered-by { font-size: 0.9rem; } }
+</style>
+</head>
+<body>
+<div class="hud-container">
+  <h1 class="brand-title">ic Store</h1>
+  <div class="brand-sub">POOPS EXPLOIT</div>
+  <div class="powered-by">POWERED BY <span>Kamal Atef</span></div>
+  <div class="status-panel"><div id="state"><span id="stateText">جارٍ تحميل سلسلة Poops<br><small>Please Wait...</small></span><div class="loader-wrapper"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div></div>
+  <div id="out-container"><div id="out"></div></div>
+</div>
+<div class="footer-sys">SYS_CORE v2.0 - Poops</div>
+<script type="module">
+import "./chain_poops.js";
+const state = document.getElementById("state"), stateText = document.getElementById("stateText");
+window.poopsDone = function () { state.classList.add("done"); stateText.innerHTML = "اكتملت العملية بنجاح<br><small>EXPLOIT SUCCESSFUL</small>"; document.querySelector('.loader-wrapper').style.display = 'none'; };
+window.poopsError = function () { state.classList.add("error"); stateText.innerHTML = "حدث خطأ أثناء التنفيذ<br><small>EXPLOIT FAILED</small>"; document.querySelector('.loader-wrapper').style.display = 'none'; };
+</script>
+</body>
+</html>
