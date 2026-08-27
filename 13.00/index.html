@@ -3,62 +3,183 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ic Store</title>
+<title>ic Store- PS4 Jailbreak</title>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&family=Black+Ops+One&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&family=Fredoka+One&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+
 <style>
-  :root { --neon-blue: #00f3ff; --neon-purple: #b000ff; --dark-bg: rgba(5, 8, 14, 0.9); }
+  :root {
+    --alex-blue: #6ebdec; /* نفس درجة الأزرق اللي في اللوجو */
+    --alex-white: #ffffff;
+    --dark-bg: #2c2c2c; /* نفس درجة الرمادي الداكن في خلفية اللوجو */
+  }
+
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  html, body { min-height: 100vh; background: #000; color: #fff; font-family: 'Cairo', sans-serif; display: flex; align-items: center; justify-content: center; direction: rtl; overflow: hidden; }
-  body::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.9) 100%); z-index: 0; }
-  .hud-container { position: relative; z-index: 1; width: 95%; max-width: 800px; background: var(--dark-bg); border: 2px solid var(--neon-blue); clip-path: polygon(40px 0, 100% 0, 100% calc(100% - 40px), calc(100% - 40px) 100%, 0 100%, 0 40px); padding: 50px 30px; box-shadow: 0 0 30px rgba(0, 243, 255, 0.2); }
-  .hud-container::after { content: ''; position: absolute; top: -2px; left: -2px; right: -2px; bottom: -2px; background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple)); z-index: -1; clip-path: polygon(40px 0, 100% 0, 100% calc(100% - 40px), calc(100% - 40px) 100%, 0 100%, 0 40px); }
-  .brand-title { font-family: 'Black Ops One', 'Orbitron', cursive; font-size: 4.5rem; font-weight: 900; text-align: center; margin-bottom: 5px; letter-spacing: 4px; direction: ltr; background: linear-gradient(to right, var(--neon-blue), #ffffff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 10px rgba(0, 243, 255, 0.6)); }
-  .brand-sub { font-size: 1.5rem; text-align: center; color: var(--neon-purple); font-weight: 900; letter-spacing: 2px; text-transform: uppercase; text-shadow: 0 0 10px rgba(176, 0, 255, 0.5); margin-bottom: 10px; direction: ltr; }
-  .powered-by { text-align: center; font-family: 'Orbitron', sans-serif; font-size: 1.1rem; letter-spacing: 2px; color: #aebfd3; margin-bottom: 30px; direction: ltr; }
-  .powered-by span { color: var(--neon-blue); font-weight: 900; text-shadow: 0 0 10px var(--neon-blue); }
-  .status-panel { background: rgba(0, 0, 0, 0.6); padding: 30px 20px; border-radius: 8px; border-right: 4px solid var(--neon-blue); margin-bottom: 10px; position: relative; box-shadow: inset 0 0 20px rgba(0,0,0,0.8); }
-  .status-panel::before { content: 'SYS_CHK'; position: absolute; top: -12px; left: 15px; background: var(--neon-blue); color: #000; padding: 2px 10px; font-family: 'Orbitron', sans-serif; font-size: 12px; font-weight: bold; border-radius: 4px; }
-  #state { font-size: 26px; font-weight: 900; color: var(--neon-blue); text-align: center; margin-bottom: 10px; text-shadow: 0 0 10px rgba(0, 243, 255, 0.5); }
-  #det { font-size: 18px; color: #cbd5e1; text-align: center; line-height: 1.8; }
-  #det b { color: #fff; background: rgba(0, 243, 255, 0.2); padding: 2px 8px; border-radius: 4px; }
-  #cache { font-size: 14px; color: #8192a8; text-align: center; margin-top: 15px; font-weight: bold; }
+
+  html, body {
+    min-height: 100vh;
+    background: #1a1a1a;
+    color: #fff;
+    font-family: 'Cairo', sans-serif;
+    display: flex; align-items: center; justify-content: center;
+    direction: rtl; overflow: hidden;
+  }
+
+  /* إضاءة خلفية خفيفة بالأزرق السماوي */
+  body::before {
+    content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: radial-gradient(circle at center, rgba(110, 189, 236, 0.15) 0%, rgba(26,26,26,1) 100%);
+    z-index: 0;
+  }
+
+  /* الحاوية الأساسية (بسيطة ومركزة على الاسم) */
+  .hud-container {
+    position: relative; z-index: 1; width: 95%; max-width: 600px;
+    background: var(--dark-bg);
+    border: 4px solid var(--alex-white);
+    border-radius: 20px;
+    padding: 50px 30px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(110, 189, 236, 0.4);
+    text-align: center;
+  }
+
+  .brand-title {
+    font-family: 'Fredoka One', cursive; font-size: 5rem;
+    color: var(--alex-blue); letter-spacing: 2px; margin-bottom: 5px;
+    direction: ltr; text-shadow: 
+      -3px -3px 0 var(--alex-white),  
+       3px -3px 0 var(--alex-white),
+      -3px  3px 0 var(--alex-white),
+       3px  3px 0 var(--alex-white),
+       0 5px 15px rgba(0,0,0,0.5);
+  }
+
+  .brand-sub {
+    font-size: 1.2rem; color: #ddd;
+    font-weight: 900; letter-spacing: 3px; text-transform: uppercase;
+    margin-bottom: 35px; direction: ltr;
+  }
+
+  /* شاشة الفحص */
+  .status-panel {
+    background: rgba(0, 0, 0, 0.5); padding: 25px; border-radius: 12px;
+    border: 2px dashed var(--alex-blue);
+    position: relative; box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5);
+  }
+
+  .status-panel::before {
+    content: 'SYSTEM STATUS'; position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+    background: var(--alex-white); color: var(--alex-blue); padding: 4px 15px;
+    font-family: 'Orbitron', sans-serif; font-size: 13px; font-weight: bold; border-radius: 20px;
+  }
+
+  #state { font-size: 24px; font-weight: 900; color: var(--alex-white); margin-bottom: 12px; text-shadow: 0 0 10px rgba(255, 255, 255, 0.5); }
+  #det { font-size: 18px; color: #aebfd3; line-height: 1.8; }
+  #det b { color: #000; background: var(--alex-blue); padding: 2px 8px; border-radius: 4px; }
+  #cache { font-size: 14px; color: #8192a8; margin-top: 15px; font-weight: bold; }
   #cache.cacheok { color: #00ff88; text-shadow: 0 0 8px rgba(0, 255, 136, 0.5); }
-  .ok { color: #00ff88; } .bad { color: #ff0055; } .warn { color: #fdd663; }
-  .footer-sys { position: fixed; bottom: 10px; right: 20px; font-family: 'Orbitron', sans-serif; font-size: 12px; color: rgba(255,255,255,0.3); letter-spacing: 2px; z-index: 2; direction: ltr; }
-  @media (max-width: 600px) { .brand-title { font-size: 3rem; } .hud-container { padding: 40px 15px; } .powered-by { font-size: 0.9rem; } }
+  
+  .ok { color: #00ff88; } .bad { color: #ff3333; } .warn { color: var(--alex-blue); }
+
+  /* حقوق الملكية */
+  .powered-by { position: fixed; bottom: 12px; right: 20px; font-family: 'Orbitron', sans-serif; font-size: 13px; letter-spacing: 2px; color: rgba(255, 255, 255, 0.4); z-index: 10; direction: ltr; }
+  .powered-by span { color: var(--alex-blue); font-weight: 900; text-shadow: 0 0 5px var(--alex-blue); }
+  .footer-sys { position: fixed; bottom: 12px; left: 20px; font-family: 'Orbitron', sans-serif; font-size: 11px; color: rgba(255,255,255,0.3); letter-spacing: 2px; z-index: 10; direction: ltr; }
+
+  @media (max-width: 600px) {
+    .brand-title { font-size: 3.5rem; }
+    .hud-container { padding: 40px 20px; }
+    .powered-by { font-size: 10px; right: 10px; } .footer-sys { font-size: 9px; left: 10px; }
+  }
 </style>
 </head>
 <body>
+
 <div class="hud-container">
   <h1 class="brand-title">ic Store</h1>
-  <div class="brand-sub">FW 11.00 - 12.00 - 13.00</div>
-  <div class="powered-by">POWERED BY <span>KamalAtef</span>01094906500</div>
-  <div class="status-panel"><div id="state">جارٍ فحص النظام...</div><div id="det"></div><div id="cache"></div></div>
+  <div class="brand-sub">PS4 Jailbreak 11.00 - 12.00 - 13.00</div>
+  
+  <div class="status-panel">
+    <div id="state">جارٍ فحص النظام...</div>
+    <div id="det"></div>
+    <div id="cache"></div>
+  </div>
 </div>
-<div class="footer-sys">SYS_CORE v2.0</div>
+
+<div class="powered-by">POWERED BY <span>Kamal Atef</span></div>
+<div class="footer-sys">ic Store OS v2.0</div>
+
 <script>
 (function () {
-    var stateEl = document.getElementById("state"), detEl = document.getElementById("det"), cacheEl = document.getElementById("cache");
+    var stateEl = document.getElementById("state");
+    var detEl = document.getElementById("det");
+    var cacheEl = document.getElementById("cache");
+
     function setState(t, c) { stateEl.innerHTML = t; stateEl.className = c || ""; }
     function setCache(t, ok) { cacheEl.textContent = "> " + t; cacheEl.className = ok ? "cacheok" : ""; }
-    var params = new URLSearchParams(location.search), key = null, fwnum = null;
+
+    var params = new URLSearchParams(location.search);
+    var key = null, fwnum = null;
     var m = /PlayStation\s+4[\/ ](\d+)\.(\d+)/.exec(navigator.userAgent);
-    if (m) { var minor = parseInt(m[2], 16), ms = minor.toString(16); if (ms.length < 2) ms = "0" + ms; key = m[1] + "." + ms; fwnum = parseInt(m[1], 10) * 100 + parseInt(ms, 10); }
-    var bug = null, why = "", forced = params.get("bug");
-    if (forced === "lapse" || forced === "poops") { bug = forced; why = "تم التحديد يدوياً ?bug=" + forced; } else if (!key) { why = "تحذير: هذا المتصفح ليس بلايستيشن 4"; } else if (fwnum <= 1202) { bug = "lapse"; why = "النظام مدعوم: توجيه مسار (Lapse)"; } else if (fwnum >= 1250) { bug = "poops"; why = "النظام مدعوم: توجيه مسار (Poops)"; } else { why = "تحذير: هذا الإصدار غير مدعوم حالياً"; }
-    var fwDisplay = key ? "<b>V_" + key + "</b>" : "<span style='color:#8f9eb0;'>UNKNOWN</span>", bugDisplay = bug ? "<b style='color:var(--neon-purple);'>" + bug.toUpperCase() + "_CHAIN</b>" : "<span style='color:#8f9eb0;'>N/A</span>";
-    detEl.innerHTML = "OS_VERSION: " + fwDisplay + " | EXPLOIT: " + bugDisplay + "<br><br><span style='color: var(--neon-blue); font-size:16px;'>" + why + "</span>";
+    if (m) {
+        var minor = parseInt(m[2], 16);
+        var ms = minor.toString(16);
+        if (ms.length < 2) ms = "0" + ms;
+        key = m[1] + "." + ms;
+        fwnum = parseInt(m[1], 10) * 100 + parseInt(ms, 10);
+    }
+
+    var bug = null, why = "";
+    var forced = params.get("bug");
+
+    if (forced === "lapse" || forced === "poops") {
+        bug = forced; why = "تم التحديد يدوياً ?bug=" + forced;
+    } else if (!key) {
+        why = "تحذير: هذا المتصفح ليس بلايستيشن 4";
+    } else if (fwnum <= 1202) {
+        bug = "lapse"; why = "النظام مدعوم: توجيه مسار (Lapse)";
+    } else if (fwnum >= 1250) {
+        bug = "poops"; why = "النظام مدعوم: توجيه مسار (Poops)";
+    } else {
+        why = "تحذير: هذا الإصدار غير مدعوم حالياً";
+    }
+
+    var fwDisplay = key ? "<b>V_" + key + "</b>" : "<span style='color:#8f9eb0;'>UNKNOWN</span>";
+    var bugDisplay = bug ? "<b style='color:var(--alex-blue);'>" + bug.toUpperCase() + "_CHAIN</b>" : "<span style='color:#8f9eb0;'>N/A</span>";
+
+    detEl.innerHTML = "OS_VERSION: " + fwDisplay + " | EXPLOIT: " + bugDisplay + "<br><br><span style='color: #fff; font-size:16px;'>" + why + "</span>";
+
     if (!bug) { setState("إصدار غير مدعوم ACCESS DENIED", "bad"); return; }
+
     var target = (bug === "lapse" ? "run_lapse.html" : "run_poops.html") + location.search;
-    function go() { setState("جارٍ تهيئة الثغرة INITIATING...", "warn"); setTimeout(function() { location.replace(target); }, 500); }
-    function waitForTap(msg, action) { setState(msg, "warn"); function fire() { window.removeEventListener("click", fire); window.removeEventListener("keydown", fire); action(); } window.addEventListener("click", fire); window.addEventListener("keydown", fire); }
+
+    function go() {
+        setState("جارٍ تهيئة الثغرة INITIATING...", "warn");
+        setTimeout(function() { location.replace(target); }, 500);
+    }
+
+    function waitForTap(msg, action) {
+        setState(msg, "warn");
+        function fire() {
+            window.removeEventListener("click", fire);
+            window.removeEventListener("keydown", fire);
+            action();
+        }
+        window.addEventListener("click", fire);
+        window.addEventListener("keydown", fire);
+    }
+
     var ac = window.applicationCache;
     if (!ac || !document.documentElement.hasAttribute("manifest")) { go(); }
     else if (!navigator.onLine) { setCache("وضع الأوفلاين نشط", true); go(); }
     else if (ac.status === ac.IDLE) { setCache("ملفات الكاش جاهزة للاستخدام", true); go(); }
-    else if (ac.status === ac.UPDATEREADY) { try { ac.swapCache(); } catch (e) {} setCache("تم تحميل التحديث بنجاح", true); waitForTap("تحديث جاهز — اضغط للتنفيذ", function () { location.reload(); }); } else {
+    else if (ac.status === ac.UPDATEREADY) {
+        try { ac.swapCache(); } catch (e) {}
+        setCache("تم تحميل التحديث بنجاح", true);
+        waitForTap("تحديث جاهز — اضغط للتنفيذ", function () { location.reload(); });
+    } else {
         setCache("جارٍ فحص التخزين المؤقت...");
         ac.addEventListener("downloading", function () { setCache("يتم سحب الملفات للمرة الأولى..."); }, false);
         ac.addEventListener("progress", function (e) { if (e && e.total) { setCache("جاري التخزين: " + Math.round((e.loaded / e.total) * 100) + "%"); } }, false);
