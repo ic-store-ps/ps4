@@ -1,7 +1,7 @@
 # PS4 - PS5 Exploit Host
 PS4 Firmwares: `5.05` `6.72` `7.02` `7.5X` `9.00` `9.60` `10.00` `11.00` `12.00` `13.00`
 
-PS5 Firmwares: `1.XX` `5.XX`12.70`
+PS5 Firmwares: `1.XX` `5.XX` `12.70`
 
 ## Steps:
 
