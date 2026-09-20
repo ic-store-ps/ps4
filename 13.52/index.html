@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ar" manifest="cache.appcache">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ic Store</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  :root { --gs-primary: #f8c210; --gs-secondary: #ffb86c; --dark-bg: rgba(5, 10, 25, 0.95); }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { min-height: 100vh; background: #020611; color: #fff; font-family: 'Cairo', sans-serif; display: flex; align-items: center; justify-content: center; direction: rtl; overflow: hidden; }
+  body::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at top left, rgba(248, 194, 16, 0.15) 0%, transparent 60%), radial-gradient(circle at bottom right, rgba(255, 184, 108, 0.15) 0%, transparent 50%); z-index: 0; }
+  .hud-container { position: relative; z-index: 1; width: 95%; max-width: 800px; background: var(--dark-bg); border-top: 3px solid var(--gs-primary); border-bottom: 3px solid var(--gs-secondary); border-radius: 15px; padding: 40px 30px; box-shadow: 0 15px 50px rgba(0,0,0,0.9), 0 0 30px rgba(248, 194, 16, 0.2), inset 0 0 20px rgba(255, 184, 108, 0.1); overflow: hidden; }
+  .brand-title { font-family: 'Orbitron', sans-serif; font-size: 5rem; font-weight: 900; text-align: center; margin-bottom: 5px; letter-spacing: 3px; color: #fff; text-shadow: 0 0 20px var(--gs-primary), 2px 2px 0px var(--gs-secondary); direction: ltr; }
+  .brand-sub { font-size: 1.6rem; text-align: center; color: #e0e0e0; font-weight: 900; letter-spacing: 1px; margin-bottom: 25px; text-shadow: 0 0 10px rgba(248, 194, 16, 0.8); }
+  
+  .contact-info { text-align: center; font-size: 1.1rem; color: #d0d0d0; margin-bottom: 25px; direction: rtl; line-height: 1.8; border-radius: 10px; padding: 20px; background: rgba(0, 0, 0, 0.6); border: 1px dashed rgba(248, 194, 16, 0.5); box-shadow: inset 0 0 15px rgba(0,0,0,0.8); }
+  .contact-info .address { font-size: 1.1rem; color: var(--gs-primary); font-weight: bold; margin-bottom: 10px; text-shadow: 0 0 8px rgba(248, 194, 16, 0.4); border-bottom: 1px solid #333; padding-bottom: 10px; }
+  .contact-info span { color: var(--gs-secondary); font-weight: 900; margin-left: 5px; }
+  .contact-info .phones { direction: ltr; display: inline-block; font-family: 'Orbitron', sans-serif; font-size: 1.6rem; color: #fff; text-shadow: 0 0 10px var(--gs-primary); font-weight: bold; margin-top: 5px; }
+
+  .status-panel { background: rgba(0, 0, 0, 0.8); padding: 25px 20px; border-radius: 8px; border: 1px solid #222; border-right: 5px solid var(--gs-primary); border-left: 5px solid var(--gs-secondary); margin-bottom: 10px; position: relative; }
+  .status-panel::before { content: 'SYSTEM_STATUS'; position: absolute; top: -12px; left: 15px; background: var(--gs-secondary); color: #000; padding: 2px 10px; font-family: 'Orbitron', sans-serif; font-size: 12px; font-weight: bold; border-radius: 4px; box-shadow: 0 0 8px var(--gs-secondary); }
+  #state { font-size: 22px; font-weight: 900; color: #fff; text-align: center; margin-bottom: 10px; text-shadow: 0 0 10px rgba(255, 255, 255, 0.4); direction: ltr; }
+  #det { font-size: 16px; color: #aaa; text-align: center; line-height: 1.8; direction: ltr;}
+  #det b { color: var(--gs-primary); font-family: 'Orbitron', sans-serif; }
+  #cache { font-size: 14px; color: #777; text-align: center; margin-top: 15px; font-weight: bold; font-family: 'Orbitron', sans-serif; direction: ltr; }
+  #cache.cacheok { color: var(--gs-primary); text-shadow: 0 0 8px var(--gs-primary); }
+  .ok { color: var(--gs-primary); } .bad { color: #ff0055; } .warn { color: var(--gs-secondary); }
+  .footer-sys { position: fixed; bottom: 10px; right: 20px; font-family: 'Orbitron', sans-serif; font-size: 12px; color: rgba(255,255,255,0.3); letter-spacing: 2px; z-index: 2; direction: ltr; }
+  @media (max-width: 600px) { .brand-title { font-size: 3.5rem; } .brand-sub { font-size: 1.2rem; } .hud-container { padding: 30px 15px; } .contact-info { font-size: 0.95rem; } .contact-info .phones { font-size: 1.2rem; } .contact-info .address { font-size: 0.95rem; } }
+</style>
+</head>
+<body>
+<div class="hud-container">
+  <h1 class="brand-title">ic Store</h1>
+  <div class="brand-sub">إدارة: KAMAL ATEF</div>
+  
+  <div class="contact-info">
+    <div class="address">📍  بني سويف مركز اهناسيا ش عبداللطيف قاسم</div>
+    <div><span>📞 للتواصل:</span> <br><div class="phones">01094906500 / 01120182726</div></div>
+  </div>
+
+  <div class="status-panel">
+    <div id="state">detecting firmware...</div>
+    <div id="det"></div>
+    <div id="cache"></div>
+  </div>
+</div>
+<div class="footer-sys">ic Store v1.0</div>
+<script>
+(function () {
+    var stateEl = document.getElementById("state");
+    var detEl = document.getElementById("det");
+    var cacheEl = document.getElementById("cache");
+    function setState(t, c) { stateEl.textContent = t; stateEl.className = c || ""; }
+    function setCache(t, ok) { cacheEl.textContent = t; cacheEl.className = ok ? "cacheok" : ""; }
+    var params = new URLSearchParams(location.search);
+
+    // Firmwares this build has a MEASURED kernel table for. jb.js still runs its
+    // own kernel-table-present gate, so this is UX only -- an unlisted firmware
+    // can still be launched with a tap. KEEP IN SYNC with ps4_offsets.js: add a
+    // fwnum here in the SAME commit that fills that firmware's kernel RVAs.
+    // The PS4 reports its minor as two hex digits in the UA (13.52 -> minor 0x52).
+    var SUPPORTED = { 1302: 1, 1304: 1, 1350: 1, 1352: 1 }; // all measured on hardware
+
+    var key = null, fwnum = null;
+    var m = /PlayStation\s+4[\/ ](\d+)\.(\d+)/.exec(navigator.userAgent);
+    if (m) {
+        var ms = parseInt(m[2], 16).toString(16);
+        if (ms.length < 2) ms = "0" + ms;
+        key = m[1] + "." + ms;
+        fwnum = parseInt(m[1], 10) * 100 + parseInt(ms, 10);
+    }
+
+    var forced = params.get("force") === "1";
+    var supported = forced || (fwnum !== null && SUPPORTED[fwnum] === 1);
+    detEl.innerHTML = "firmware <b>" + (key || "unknown") + "</b>"
+        + (supported ? " &middot; <b>supported</b>"
+                     : " &middot; not in this build's kernel table");
+
+    var target = "jb.html" + location.search;
+    function go() { setState("loading jailbreak...", "warn"); location.replace(target); }
+
+    function waitForTap(msg, action) {
+        setState(msg, "warn");
+        function fire() {
+            window.removeEventListener("click", fire);
+            window.removeEventListener("keydown", fire);
+            action();
+        }
+        window.addEventListener("click", fire);
+        window.addEventListener("keydown", fire);
+    }
+
+    // Off-target consoles are not launched automatically -- one tap still runs
+    // it, so a user-agent quirk on the real 13.52 console can never lock it out.
+    if (!supported) {
+        setState("UNSUPPORTED FIRMWARE", "bad");
+        waitForTap("UNSUPPORTED (" + (key || "unknown") + ") -- press X or tap to run anyway", go);
+        return;
+    }
+
+    var ac = window.applicationCache;
+    if (!ac || !document.documentElement.hasAttribute("manifest")) {
+        go();
+    } else if (!navigator.onLine) {
+        setCache("offline -- from cache", true);
+        go();
+    } else if (ac.status === ac.IDLE) {
+        setCache("cached", true);
+        go();
+    } else if (ac.status === ac.UPDATEREADY) {
+        try { ac.swapCache(); } catch (e) {}
+        setCache("update downloaded", true);
+        waitForTap("UPDATE READY -- press X or tap to reload & run",
+                   function () { location.reload(); });
+    } else {
+        setCache("checking cache...");
+        ac.addEventListener("downloading",
+            function () { setCache("caching for offline (first run)..."); }, false);
+        ac.addEventListener("progress", function (e) {
+            if (e && e.total)
+                setCache("caching " + Math.round((e.loaded / e.total) * 100) + "%");
+        }, false);
+        ac.addEventListener("cached", function () {
+            setCache("cached for offline use", true);
+            waitForTap("CACHED (first run) -- press X or tap to run", go);
+        }, false);
+        ac.addEventListener("updateready", function () {
+            try { ac.swapCache(); } catch (e) {}
+            setCache("update downloaded", true);
+            waitForTap("UPDATE READY -- press X or tap to reload & run",
+                       function () { location.reload(); });
+        }, false);
+        ac.addEventListener("noupdate", function () {
+            setCache("cached -- offline ready", true);
+            go();
+        }, false);
+        ac.addEventListener("error", function () {
+            setCache("cache unavailable");
+            waitForTap("CACHE FAILED -- press X or tap to run anyway", go);
+        }, false);
+        ac.addEventListener("obsolete", function () {
+            setCache("cache obsolete");
+            waitForTap("CACHE OBSOLETE -- press X or tap to run", go);
+        }, false);
+    }
+})();
+</script>
+</body>
+</html>

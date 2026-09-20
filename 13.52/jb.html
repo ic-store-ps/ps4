@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ar" manifest="cache.appcache">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ic Store - Exploit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  :root { --gs-primary: #f8c210; --gs-secondary: #ffb86c; --dark-bg: rgba(5, 10, 25, 0.95); }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { min-height: 100vh; background: #020611; color: #fff; font-family: 'Cairo', sans-serif; display: flex; align-items: center; justify-content: center; direction: rtl; overflow: hidden; }
+  body::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at top left, rgba(248, 194, 16, 0.15) 0%, transparent 60%), radial-gradient(circle at bottom right, rgba(255, 184, 108, 0.15) 0%, transparent 50%); z-index: 0; }
+  .hud-container { position: relative; z-index: 1; width: 95%; max-width: 900px; background: var(--dark-bg); border-top: 3px solid var(--gs-primary); border-bottom: 3px solid var(--gs-secondary); border-radius: 15px; padding: 40px 30px; box-shadow: 0 15px 50px rgba(0,0,0,0.9), 0 0 30px rgba(248, 194, 16, 0.2), inset 0 0 20px rgba(255, 184, 108, 0.1); overflow: hidden; transition: opacity 0.5s; }
+  
+  body.running .hud-container { opacity: 0.3; } /* dim UI when exploit running */
+  body.fail .hud-container { opacity: 0.1; }
+
+  .brand-title { font-family: 'Orbitron', sans-serif; font-size: 5rem; font-weight: 900; text-align: center; margin-bottom: 5px; letter-spacing: 3px; color: #fff; text-shadow: 0 0 20px var(--gs-primary), 2px 2px 0px var(--gs-secondary); direction: ltr; }
+  .brand-sub { font-size: 1.6rem; text-align: center; color: #e0e0e0; font-weight: 900; letter-spacing: 1px; margin-bottom: 25px; text-shadow: 0 0 10px rgba(248, 194, 16, 0.8); }
+  
+  .contact-info { text-align: center; font-size: 1.1rem; color: #d0d0d0; margin-bottom: 25px; direction: rtl; line-height: 1.8; border-radius: 10px; padding: 20px; background: rgba(0, 0, 0, 0.6); border: 1px dashed rgba(248, 194, 16, 0.5); box-shadow: inset 0 0 15px rgba(0,0,0,0.8); }
+  .contact-info .address { font-size: 1.1rem; color: var(--gs-primary); font-weight: bold; margin-bottom: 10px; text-shadow: 0 0 8px rgba(248, 194, 16, 0.4); border-bottom: 1px solid #333; padding-bottom: 10px; }
+  .contact-info span { color: var(--gs-secondary); font-weight: 900; margin-left: 5px; }
+  .contact-info .phones { direction: ltr; display: inline-block; font-family: 'Orbitron', sans-serif; font-size: 1.6rem; color: #fff; text-shadow: 0 0 10px var(--gs-primary); font-weight: bold; margin-top: 5px; }
+
+  .status-panel { background: rgba(0, 0, 0, 0.8); padding: 20px; border-radius: 8px; border: 1px solid #222; border-right: 5px solid var(--gs-primary); border-left: 5px solid var(--gs-secondary); margin-bottom: 20px; position: relative; }
+  .status-panel::before { content: 'EXECUTION'; position: absolute; top: -12px; left: 15px; background: var(--gs-secondary); color: #000; padding: 2px 10px; font-family: 'Orbitron', sans-serif; font-size: 12px; font-weight: bold; border-radius: 4px; box-shadow: 0 0 8px var(--gs-secondary); }
+  #state { font-size: 24px; font-weight: 900; color: #fff; text-align: center; margin-bottom: 10px; text-shadow: 0 0 10px rgba(255, 255, 255, 0.5); direction: ltr;}
+  
+  #out { white-space: pre-wrap; font: 12px/1.45 Consolas, monospace; background: rgba(2, 6, 17, 0.8); border: 1px solid rgba(248, 194, 16, 0.3); border-radius: 8px; padding: 14px; max-height: 250px; overflow-y: auto; color: #bbb; direction: ltr; text-align: left; box-shadow: inset 0 0 15px rgba(0,0,0,0.8); display:none; margin-top: 10px; }
+  body.log #out { display: block; }
+  body.log .contact-info, body.log .brand-sub { display: none; }
+  #out::-webkit-scrollbar { width: 6px; } #out::-webkit-scrollbar-track { background: #111; border-radius: 10px; } #out::-webkit-scrollbar-thumb { background: var(--gs-primary); border-radius: 5px; }
+  
+  .ok { color: var(--gs-primary) !important; text-shadow: 0 0 10px var(--gs-primary) !important; } .bad { color: #ff0055 !important; text-shadow: 0 0 10px #ff0055 !important; } .warn { color: var(--gs-secondary) !important; }
+  .footer-sys { position: fixed; bottom: 10px; right: 20px; font-family: 'Orbitron', sans-serif; font-size: 12px; color: rgba(255,255,255,0.3); letter-spacing: 2px; z-index: 2; direction: ltr; }
+
+  #spin { position: fixed; top: 50%; left: 50%; width: 46px; height: 46px; margin: -23px 0 0 -23px; border: 4px solid #222; border-top-color: var(--gs-primary); border-radius: 50%; animation: spin 0.9s linear infinite; display:none; z-index: 10;}
+  @keyframes spin { to { transform: rotate(360deg); } }
+  #msg { position: fixed; top: 50%; left: 0; right: 0; transform: translateY(-50%); text-align: center; font-size: 26px; color: #ff0055; font-weight: bold; font-family: 'Orbitron', sans-serif; display: none; z-index: 10; text-shadow: 0 0 15px #ff0055;}
+  
+  body.running #spin { display: block; }
+  body.done #spin { display: none; }
+  body.fail #spin { display: none; }
+  body.fail #msg { display: block; }
+  body.log #spin, body.log #msg { display: none; }
+
+  @media (max-width: 600px) { .brand-title { font-size: 3.5rem; } .brand-sub { font-size: 1.2rem; } .contact-info { font-size: 0.95rem; } .contact-info .phones { font-size: 1.2rem; } .contact-info .address { font-size: 0.95rem; } #out { min-height: 100px; max-height: 200px; } }
+</style>
+</head>
+<body>
+<div class="hud-container">
+  <h1 class="brand-title">ic Store</h1>
+  <div class="brand-sub">ادارة KAMAL ATEF</div>
+  
+  <div class="contact-info">
+    <div class="address">📍  بني سويف مركز اهناسيا ش عبداللطيف قاسم</div>
+    <div><span>📞 للتواصل:</span> <br><div class="phones">01094906500 / 01120182726</div></div>
+  </div>
+
+  <div class="status-panel">
+    <div id="state">Loading...</div>
+    <div id="out"></div>
+  </div>
+</div>
+<div id="spin"></div>
+<div id="msg">Restart your console</div>
+<div class="footer-sys">ic Store v1.0 - Exploit</div>
+<script type="module">
+      import "./jb.js?v=10";
+    </script>
+  </body>
+</html>
