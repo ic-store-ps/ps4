@@ -18,7 +18,7 @@ function onScriptError() {
 
 if (!isPS4) {
     document.addEventListener("DOMContentLoaded", () => {
-        msgs.innerHTML = "Only for PS4 with Firmware 5.05 and 7.00 to 13.00";
+        msgs.innerHTML = "Only for PS4 with Firmware 5.05 and 7.00 to 13.52";
     });
 } else {
     if (window.applicationCache.status == '0') {
@@ -86,7 +86,7 @@ if (!isPS4) {
         else if (fwNum >= 13.02 && fwNum <= 13.52) {
             var script = document.createElement('script');
             script.type = 'module';
-            script.src = "slopkit/jb.js?v=10";
+            script.src = "slopkit/jb.js?v=19";
             script.onerror = onScriptError;
             document.head.appendChild(script);
         }
